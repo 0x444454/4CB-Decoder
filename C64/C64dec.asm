@@ -173,7 +173,7 @@ mod40_end:
 ; Note that:
 ;  - PAL  C64, input video at 50Hz (20    ms): 19656 cycles. <===== This is the original target audience in 1985.
 ;  - NTSC C64, input video at 50Hz (20    ms): 20455 cycles.
-;  - PAL  C64, input video at 60Hz (16.67 ms): 16421 cycles.
+;  - PAL  C64, input video at 60Hz (16.67 ms): 16421 cycles. <===== This is default in this program.
 ;  - NTSC C64, input video at 60Hz (16.67 ms): 17045 cycles.
 ;
 ;           8 +   (X * (2 + Y*5 - 1 + 5)) - 1   + 12
