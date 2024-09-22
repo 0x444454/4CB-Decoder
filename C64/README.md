@@ -1,8 +1,10 @@
 Here are the calibration and decoder programs for the Commodore 64.
 They are intended to be used with the original DIY hardware described in the TV show.
 They should work with both CRT and LCD monitors, and with both 50 Hz (original) and 60 Hz (sped-up/simulated) videos.
-IMPORTANT: Be sure your video player is using **V-Sync** for playback and most importantly **DISABLE de-interlacing**.
-           Your CRT or LCD **refresh rate MUST match** the field or frame rate of the video.
+
+**IMPORTANT**: Be sure your video player is using **V-Sync** for playback.
+**IMPORTANT**: Be sure **de-interlacing** is **DISABLED**.
+**IMPORTANT**: Your CRT or LCD **refresh rate MUST match** the field or frame rate of the video.
 
 NOTE: Default timing for both programs is for a PAL C64 decoding a 60 Hz "dot". This is simply because I have a 60 Hz LCD screen and no current way to test 50 Hz.
       The timing delay can be adjusted pressing + and - and the current delay will be shown in yellow in the upper left corner of the screen (it's displayed in hex).
