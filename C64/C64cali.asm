@@ -1,4 +1,4 @@
-; Four Computer C64 calibrate program.
+; 4 Computer Buffs - C64 calibrate program.
 ; 
 ; Assembly source format: 64TASS (Turbo Assembler Macro).
 ;
