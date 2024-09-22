@@ -6,8 +6,8 @@ Supported computers were C64, BBC Micro, and ZX Spectrum.
 The PAL video signal contained a white flashing dot in the lower right corner of the screen. The dot transmitted one bit per PAL field (50 bits per second).
 As far as we know, for different reasons, no one ever succeded decoding the mysterious programs using their home computers.
 
-This project provides functional realtime and batch decoders that work with the original broadcasted signals.
+This project provides functional realtime and batch decoders that work with the original broadcasted signals and simulated surrogates.
 So you we can finally unravel the mystery ;-)
 
-Read the story of the reverse-engineering of the transmnission protocol in this thread on Lemon64:
+Read the story of the reverse-engineering of the transmnission protocol in this thread on Lemon64 (spoiler warning):
 https://www.lemon64.com/forum/viewtopic.php?t=85204
