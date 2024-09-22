@@ -20,5 +20,5 @@ https://www.lemon64.com/forum/viewtopic.php?t=85204
 
 Watch the videos by Perifractic about this decoding adventure:  
 https://www.youtube.com/watch?v=MezkfYTN6EQ  
-https://www.youtube.com/watch?v=VRcs_TUpQ6g  
+https://www.youtube.com/watch?v=VRcs_TUpQ6g  (spoiler warning)  
 
