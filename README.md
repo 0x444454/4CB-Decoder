@@ -18,7 +18,7 @@ TODO: Support for BBC Micro and ZX Spectrum. As of now, nobody has ever decoded 
 Read the story of the reverse-engineering of the transmission protocol in this thread on Lemon64 (spoiler warning):
 https://www.lemon64.com/forum/viewtopic.php?t=85204
 
-Watch the video by Perifractic here (in order):  
+Watch the videos by Perifractic about this decoding adventure:  
 https://www.youtube.com/watch?v=MezkfYTN6EQ  
 https://www.youtube.com/watch?v=VRcs_TUpQ6g  
 
