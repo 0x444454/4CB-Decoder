@@ -9,6 +9,8 @@
 ;   2024-08-25: Ported by DDT to C64tass assembler. [DDT]
 ;   2024-08-26: Added consistency checks, visual debugging info, and minimal UI. [DDT]
 ;   2024-08-27: Fixed async serial timings. [DDT]
+;   2024-09-15: Improved visual debugging aids. [DDT]
+;   2024-09-16: Support also NTSC C64 and non-PAL video sources. [DDT]
 
 ; This code uses User Port line L (CIA2 port B bit 7) to receive data from the light sensor (hopefully calibrated).
 ;
