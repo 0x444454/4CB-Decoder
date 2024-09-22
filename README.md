@@ -9,5 +9,5 @@ As far as we know, for different reasons, no one ever succeded decoding the myst
 This project provides functional realtime and batch decoders that work with the original broadcasted signals.
 So you we can finally unravel the mystery ;-)
 
-Read the story of the reverse-engineering of the original protocol in this thread on Lemon64:
+Read the story of the reverse-engineering of the transmnission protocol in this thread on Lemon64:
 https://www.lemon64.com/forum/viewtopic.php?t=85204
