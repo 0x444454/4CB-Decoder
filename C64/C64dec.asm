@@ -524,7 +524,7 @@ pr_end:
 * = $c800
 ; Strings
 str_press_key:         .byte $93 ;Clear screen.      
-                       .text $0D, "decoder - version 2024-09-16.ddt", $0D, "any key to start...", $00
+                       .text $0D, "decoder - version 2024-09-17.ddt", $0D, "any key to start...", $00
                        
 str_reading:           .byte $93 ;Clear screen.
                        .text "waiting for stream...", $0D, "run/stop to break.", $00
