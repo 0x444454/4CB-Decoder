@@ -1,4 +1,4 @@
-; Four Computer C64 receive program.
+; 4 Computer Buffs - C64 receive program.
 ;
 ; Assembly source format: 64TASS (Turbo Assembler Macro).
 ;
