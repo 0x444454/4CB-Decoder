@@ -10,8 +10,8 @@ This project provides functional realtime and batch decoders that work with the 
 So we can finally unravel the mystery ;-)
 
 Currently supported:
-- Python batch decoder
-- C64 realtime decoder
+- Python batch decoder: Decode a video file from the comfort of your modern machine.
+- C64 realtime decoder: Decode the video in realtime using the original hardware and light sensor as described in the TV show.
 
 Read the story of the reverse-engineering of the transmission protocol in this thread on Lemon64 (spoiler warning):
 https://www.lemon64.com/forum/viewtopic.php?t=85204
