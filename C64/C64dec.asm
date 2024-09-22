@@ -20,7 +20,7 @@
 ; Each 0 or 1 bit is encoded in a single PAL field, with a duration of 20 ms (the light sensor hardware must be calibrated for the same bit duration).
 ; PROBLEM: Interrupts are not disabled, so there could be jitter introduced by the IRQ service routine (60 Hz).
 ;
-; DECODE_BYTE ALGORITHM:
+; DECODE_BYTE ALGORITHM (for PAL input timings):
 ; - Wait for the start_bit (0), then wait 10 ms to center the sampling interval in the middle of the start_bit duration. This is in order to minimize errors due to jitter.
 ; - Read 9 bits: I.e. the start_code bit and the 8 payload bits. After each read bit, wait 20ms to center to the next bit.
 ; - At the end of the payload, the decoder is positioned in the middle of the first bit of the stop_sequence, which for obscure reasons is always set to 0 instead of 1 like any respectable stop bit(s).
