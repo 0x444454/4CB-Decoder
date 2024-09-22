@@ -29,6 +29,9 @@ However, it is recommended to use the calibration program you find here, which i
 - 60 Hz calibration video: [TODO: Provide video].
 Adjust the potentiometer until 0 and 1 are alternating, and no red "E" (which stands for Error) is displayed on screen (for at least 5 seconds).
 
+A successful calibration:
+![My image description](../docs/images/20240916-C4-calib.jpg)
+
 
 **DECODING**
 
