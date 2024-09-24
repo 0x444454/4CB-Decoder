@@ -11,7 +11,7 @@ So we can finally unravel the mystery ;-)
 
 Currently supported:
 - Python batch decoder: Decode a video file in the comfort of your modern machine.
-- C64 realtime decoder: Decode the video in realtime using your Commodore 64 and the original hardware and light sensor as described in the TV show. **Not for the faint of heart.**
+- C64 realtime decoder: Decode the video in realtime using your Commodore 64 and the original hardware and light sensor as described in the TV show. **Not for the faint of heart.** :-)
 
 TODO: Support for BBC Micro and ZX Spectrum. As of now, nobody has ever decoded their mystery programs.
 
