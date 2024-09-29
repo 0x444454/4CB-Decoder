@@ -9,4 +9,4 @@ Interlaced versions will be produced in the future, if needed.
 - decode_C64_60Hz.mp4: Reproduction of the original encoded program at 60 Hz. Decode this with a Commodore 64 and original light sensor device.
 
 
-These video files have been provided by Matalog ([Contact](media/matalog_contact.jpg)).
+These video files have been provided by Matalog ([Contact](matalog_contact.jpg)).
