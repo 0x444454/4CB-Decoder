@@ -6,10 +6,8 @@ They should work with both CRT and LCD monitors, and with both 50 Hz (original) 
 **IMPORTANT**: Be sure **de-interlacing** is **DISABLED**.  
 **IMPORTANT**: Your CRT or LCD **refresh rate MUST match** the field or frame rate of the video.  
 
-NOTE: Default timing for both programs is for a PAL C64 decoding a 60 Hz "dot". This is simply because I have a 60 Hz LCD screen and no current way to test 50 Hz.  
-      The timing delay can be adjusted pressing + and - and the current delay will be shown in yellow in the upper left corner of the screen (it's displayed in hex).  
-
-[TODO: A start menu to select either 50 Hz or 60 Hz screen and provide the respective preset timing delay for the C64 model in use. PAL or NTSC model is autodetected.]
+A start menu allows selecting either 50 Hz or 60 Hz screen and provide the respective preset timing delay for the C64 model in use. PAL or NTSC model is autodetected.
+In any case, the timing delay can be adjusted pressing + and - and the current delay will be shown in yellow in the upper left corner of the screen (it's displayed in hex).  
 
 
 Both programs are launched using:
