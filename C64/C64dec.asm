@@ -11,6 +11,8 @@
 ;   2024-08-27: Fixed async serial timings. [DDT]
 ;   2024-09-15: Improved visual debugging aids. [DDT]
 ;   2024-09-16: Support also NTSC C64 and non-PAL video sources. [DDT]
+;   2024-10-01: Output debug timing on Use Port pin C. [DDT]
+;   2024-10-02: Support autodetect of system frequency and selecting default timing for 50 Hz or 60 Hz source. [DDT]
 
 ; This code uses User Port line L (CIA2 port B bit 7) to receive data from the light sensor (hopefully calibrated).
 ;
@@ -41,42 +43,65 @@
 
 ; Init data input from user port
 
-    LDA #$00
-    STA $DD03      ; Set CIA2 port B as input (receive).
+    LDA #$7F
+    STA $DD03      ; Set CIA2 port B bit 7 as input (receive).
+                   ; All other bits as output. We can use bit 0 to check/debug the delay.
     
-
 ; Change background color for better contrast.
     LDA #$00
     STA $D021
 
-; Print "PRESS ANY KEY".
+; Print "PRESS KEY".
     LDA #<str_press_key
     STA $12
     LDA #>str_press_key
     STA $13
     JSR print_str
     
-    ; Print default delay value.
-    LDA delay_outer + 1
-    JSR print_A_hex
-
-; Wait for keypress
-
+; Wait for selection of default timing.
 wait_key:
-    ;JSR handle_userinput
-    ;JSR check_plus_minus
-    ;CMP #00
-    ;BNE wait_key   ; If user just adjusted the delay, then don't start yet.
     JSR $FFE4      ; Call Kernal GETIN
     CMP #$00
     BEQ wait_key   ; Wait for key...
+    CMP #$31       ; Check if "1" is pressed (50 Hz source)
+    BEQ src_50
+    CMP #$32       ; Check if "2" is pressed (60 Hz source)
+    BEQ src_60
+    JMP wait_key   ; Wrong choice. Select again...
+
+    ; Auto timing for 50 Hz source.
+src_50:
+    LDX #$7B       ; NTSC C64 with 50 Hz source.
+    LDA $02A6
+    BEQ set_src_50 ; Branch if NTSC C64.
+    LDX #$78       ; PAL C64 with 50 Hz source.
+set_src_50:
+    STX delay_outer + 1
+    JMP start_reading
+
+    ; Auto timing for 60 Hz source.
+src_60:
+    LDX #$78       ; NTSC C64 with 60 Hz source.
+    LDA $02A6
+    BEQ set_src_60 ; Branch if NTSC C64.
+    LDX #$66       ; PAL C64 with 60 Hz source.
+set_src_60:
+    STX delay_outer + 1    
+
 
 ; Print "READING".
+start_reading:
     LDA #<str_reading
     STA $12
     LDA #>str_reading
     STA $13
     JSR print_str
+
+print_delay:
+    ; Print default delay value.
+    LDA delay_outer + 1
+    JSR print_A_hex
+
 
 ; DISABLE INTERRUPTS HERE
     SEI
@@ -86,6 +111,11 @@ wait_key:
     STA $AE
     LDA #$04
     STA $AF
+
+; Use address $13 to debug:
+;   Bit 0 is flipped and output to user port pin C (CIA2 PB0) each time the delay routing is called.
+    LDA #$00
+    STA $13
 
 ; START OF STREAM - NOTE: We expect a C64 BASIC program in binary format
 
@@ -178,19 +208,34 @@ mod40_end:
 ;  - PAL  C64, input video at 60Hz (16.67 ms): 16421 cycles. <===== This is default in this program.
 ;  - NTSC C64, input video at 60Hz (16.67 ms): 17045 cycles.
 ;
-;           8 +   (X * (2 + Y*5 - 1 + 5)) - 1   + 12
+;           8+19 +   (X * (2 + Y*5 - 1 + 5)) - 1   + 12
 ;
 ; IMPORTANT: The 6510 CPU cannot use all cycles in a frame due to VIC-II memory access priority (bad lines et cetera).
+; This routine preserves A.
 
 
 delay:
-    LDY #$02          ; [2 cycles] Change border to red. 
+    ; Change border to red. [8 cycles]
+    LDY #$02          ; [2 cycles]
     STY $D020         ; [6 cycles]
+
+    ; Swap debug delay bit and output on User Port pin C. [19 cycles]
+    PHA               ; [3 cycles]
+    LDA #$01          ; [2 cycles]
+    EOR $13           ; [3 cycles]
+    STA $13           ; [3 cycles]
+    STA $DD01         ; [4 cycles]
+    PLA               ; [4 cycles]
+
                     
 delay_outer:        
     ; WARNING: Do not insert code here. We modify the code for the delay (i.e. LDY value).
-    LDY #$67          ; [2 cycles] Counter for a PAL C64 with "the dot" at 60Hz.
-                      ;            TODO: Find the right number for all other combinations above.
+    ;LDY #$66          ; [2 cycles] Counter for a PAL C64 with "the dot" at 60Hz.
+    LDY #$78          ; [2 cycles] Counter for a PAL C64 with "the dot" at 50Hz.
+    ;LDY #$78          ; [2 cycles] Counter for a NTSC C64 with "the dot" at 60Hz.
+    ;LDY #$7B          ; [2 cycles] Counter for a NTSC C64 with "the dot" at 50Hz.
+
+
 delay_inner:        
     DEY               ; [2 cycles]
     BNE delay_inner   ; [3 cycles if taken, 2 if not]
@@ -524,9 +569,11 @@ pr_end:
 * = $c800
 ; Strings
 str_press_key:         .byte $93 ;Clear screen.      
-                       .text $0D, "decoder - version 2024-09-17.ddt", $0D, "any key to start...", $00
+                       .text $0D, "decoder - version 2024-10-02.ddt", $0D
+                       .text "To start press:", $0D
+                       .text "  1: decode 50 hz signal", $0D
+                       .text "  2: decode 60 hz signal", $0D
+                       .text $00
                        
 str_reading:           .byte $93 ;Clear screen.
-                       .text "waiting for stream...", $0D, "run/stop to break.", $00
-
-
+                       .text $0D, "waiting for stream...", $0D, "run/stop to break.", $00
