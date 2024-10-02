@@ -1,3 +1,5 @@
+# READ ME FIRST
+
 Here are the calibration and decoder programs for the Commodore 64.  
 They are intended to be used with the original DIY hardware described in the TV show.  
 They should work with both CRT and LCD monitors, and with both 50 Hz (original) and 60 Hz (sped-up/simulated) videos.  
@@ -6,32 +8,37 @@ They should work with both CRT and LCD monitors, and with both 50 Hz (original) 
 **IMPORTANT**: Be sure **de-interlacing** is **DISABLED**.  
 **IMPORTANT**: Your CRT or LCD **refresh rate MUST match** the field or frame rate of the video.  
 
-A start menu allows selecting either 50 Hz or 60 Hz screen and provide the respective preset timing delay for the C64 model in use. PAL or NTSC model is autodetected.
-In any case, the timing delay can be adjusted pressing + and - and the current delay will be shown in yellow in the upper left corner of the screen (it's displayed in hex).  
+A start menu allows selecting either 50 Hz or 60 Hz video source and provide the respective preset timing delay for the C64 model in use.  
+PAL or NTSC model is **autodetected**. So if you need to select the input video source frame rate, not your C64 output display rate.  
+For example, if you have a PAL C64 and need to decode a 60 Hz video played by a laptop with a 60 Hz display, then you need to press "2" for 60 Hz.  
+
+The timing delay can be adjusted pressing + and - and the current delay will be shown in yellow in the upper left corner of the screen (it's displayed in hex).  
 
 
 Both programs are launched using:
 
-  SYS 49152
+  **```SYS 49152```**
 
-Use RUN/STOP to exit. You can then re-launch the program and the previous timing will be remembered.  
-If you want to revert to default timing, just reload the program.  
+# BUILD
 
+[Use 64TASS.](https://github.com/irmen/64tass)
 
-**CALIBRATION**
+ 
+# CALIBRATION
 
 To calibrate the hardware, you can still use the original calibration program that Channel 4 provided in 1985, though that was intended to work only with a PAL C64 receiving a PAL video.  
 
 However, it is recommended to use the calibration program you find here, which is to be used in conjunction with one of the calibration videos below (50 or 60 Hz):
-- 50 Hz calibration video: [TODO: Provide video].
-- 60 Hz calibration video: [TODO: Provide video].
+- [50 Hz calibration video](../media/decode_C64_50Hz.mp4)  
+- [60 Hz calibration video](../media/decode_C64_60Hz.mp4)
+
 Adjust the potentiometer until 0 and 1 are alternating, and no red "E" (which stands for Error) is displayed on screen (for at least 5 seconds).
 
 A successful calibration:
 ![My image description](../docs/images/20240916-C4-calib.jpg)
 
 
-**DECODING**
+# DECODING
 
 The decoder program injects the received BASIC program directly in memory.  
 When the end of the stream is reached, the decoder program will automatically exit.  
