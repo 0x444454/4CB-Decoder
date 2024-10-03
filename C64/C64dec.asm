@@ -13,6 +13,7 @@
 ;   2024-09-16: Support also NTSC C64 and non-PAL video sources. [DDT]
 ;   2024-10-01: Output debug timing on Use Port pin C. [DDT]
 ;   2024-10-02: Support autodetect of system frequency and selecting default timing for 50 Hz or 60 Hz source. [DDT]
+;   2024-10-03: More reliable start-code sync. [DDT]
 
 ; This code uses User Port line L (CIA2 port B bit 7) to receive data from the light sensor (hopefully calibrated).
 ;
@@ -43,9 +44,9 @@
 
 ; Init data input from user port
 
-    LDA #$7F
+    LDA #$01
     STA $DD03      ; Set CIA2 port B bit 7 as input (receive).
-                   ; All other bits as output. We can use bit 0 to check/debug the delay.
+                   ; Set CIA2 port B bit 0 as output. We can use bit 0 to check/debug the delay.
     
 ; Change background color for better contrast.
     LDA #$00
@@ -53,9 +54,9 @@
 
 ; Print "PRESS KEY".
     LDA #<str_press_key
-    STA $12
+    STA $22
     LDA #>str_press_key
-    STA $13
+    STA $23
     JSR print_str
     
 ; Wait for selection of default timing.
@@ -92,9 +93,9 @@ set_src_60:
 ; Print "READING".
 start_reading:
     LDA #<str_reading
-    STA $12
+    STA $22
     LDA #>str_reading
-    STA $13
+    STA $23
     JSR print_str
 
 print_delay:
@@ -112,10 +113,10 @@ print_delay:
     LDA #$04
     STA $AF
 
-; Use address $13 to debug:
+; Use address $22 to debug:
 ;   Bit 0 is flipped and output to user port pin C (CIA2 PB0) each time the delay routing is called.
     LDA #$00
-    STA $13
+    STA $22
 
 ; START OF STREAM - NOTE: We expect a C64 BASIC program in binary format
 
@@ -222,8 +223,8 @@ delay:
     ; Swap debug delay bit and output on User Port pin C. [19 cycles]
     PHA               ; [3 cycles]
     LDA #$01          ; [2 cycles]
-    EOR $13           ; [3 cycles]
-    STA $13           ; [3 cycles]
+    EOR $23           ; [3 cycles]
+    STA $23           ; [3 cycles]
     STA $DD01         ; [4 cycles]
     PLA               ; [4 cycles]
 
@@ -293,6 +294,7 @@ found_0:
     ; If not zero, then output an extra "E" to signal the start bit error.
     LDA #$85       ; 'E' | $80 for red
     JSR print_char ; Output carry value on screen (trashes A).
+    JMP wait_0     ; Wait for a good start bit...
     
 start_bit_ok:
     LDX #$1E       ; Delay 20 ms to skip the start bit.
@@ -447,13 +449,13 @@ was_zero:
 ; Set bit 7 to show it in red color, otherwise we use white.
 ; Preserves all registers and flags, but not A.
 print_char:
-    STA $12       ; Save A (char to print).
+    STA $22       ; Save A (char to print).
 
     PHP   ; Save SR
     TYA
     PHA   ; Save Y
     
-    LDA $12       ; Restore A (char to print).
+    LDA $22       ; Restore A (char to print).
     
     LDY #$00
     AND #$7F         ; Remove color flag.
@@ -464,7 +466,7 @@ print_char:
     CLC
     ADC #$D4      ; Point to Color Memory.
     STA $AF
-    LDA $12       ; A = char to print. This will set the N flag if we need to use red color.
+    LDA $22       ; A = char to print. This will set the N flag if we need to use red color.
     BPL not_red
     AND #$7F
     SEC           ; Flag the use of red.
@@ -551,15 +553,15 @@ pA_alpha_1:
     RTS
 
 ;==========================================================================================================   
-; PRINT routine. Print zero-terminated string pointed to by ($12), max 255 chars.
-; This routine trashes registers and changes $12.
+; PRINT routine. Print zero-terminated string pointed to by ($22), max 255 chars.
+; This routine trashes registers and changes $22.
 print_str:
 pr_ch:
     LDY #$00           ; Clear index.
-    LDA ($12), Y       ; Load the next char from the message.
+    LDA ($22), Y       ; Load the next char from the message.
     BEQ pr_end         ; If character is 0 (end of string), jump to end
     JSR $FFD2          ; Call CHROUT ($FFD2) to print character
-    INC $12            ; Increase char*.
+    INC $22            ; Increase char*.
     JMP pr_ch          ; Repeat the l oop
 pr_end:
     RTS
@@ -570,7 +572,7 @@ pr_end:
 ; Strings
 str_press_key:         .byte $93 ;Clear screen.      
                        .text $0D, "decoder - version 2024-10-02.ddt", $0D
-                       .text "To start press:", $0D
+                       .text "to start press:", $0D
                        .text "  1: decode 50 hz signal", $0D
                        .text "  2: decode 60 hz signal", $0D
                        .text $00
