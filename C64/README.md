@@ -9,7 +9,7 @@ They should work with both CRT and LCD monitors, and with both 50 Hz (original) 
 **IMPORTANT**: Your CRT or LCD **refresh rate MUST match** the field or frame rate of the video.  
 
 A start menu allows selecting either 50 Hz or 60 Hz video source and provide the respective preset timing delay for the C64 model in use.  
-PAL or NTSC model is **autodetected**. So if you need to select the input video source frame rate, not your C64 output display rate.  
+PAL or NTSC model is **autodetected**. So you only need to select the input video source frame rate, not your C64 output display rate.  
 For example, if you have a PAL C64 and need to decode a 60 Hz video played by a laptop with a 60 Hz display, then you need to press "2" for 60 Hz.  
 
 The timing delay can be adjusted pressing + and - and the current delay will be shown in yellow in the upper left corner of the screen (it's displayed in hex).  
